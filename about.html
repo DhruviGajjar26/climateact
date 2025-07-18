@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CarbonTrackAgent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .nav a {
+            color: #495057;
+            text-decoration: none;
+            margin-right: 25px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #4CAF50;
+        }
+
+        .nav a.active {
+            color: #4CAF50;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #2E7D32;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h2 .icon {
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+
+        .section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-card .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4CAF50;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.4;
+        }
+
+        .team-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-member .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2em;
+            color: white;
+        }
+
+        .team-member h4 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .team-member p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cta-section h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: white;
+            color: #4CAF50;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            background: #2E7D32;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #81c784;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid,
+            .stats-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav {
+                padding: 10px 20px;
+            }
+            
+            .nav a {
+                margin-right: 15px;
+                font-size: 0.9em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌱 About CarbonTrackAgent</h1>
+            <p>Empowering individuals to make a difference in climate action</p>
+        </div>
+
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/track">Track Carbon</a>
+            <a href="/tips">Climate Tips</a>
+            <a href="/reports">Reports</a>
+            <a href="/about" class="active">About</a>
+        </nav>
+
+        <div class="content">
+            <section class="section">
+                <h2><span class="icon">🎯</span>Our Mission</h2>
+                <p>CarbonTrackAgent is an AI-powered carbon footprint tracking system designed to make climate action accessible, personalized, and actionable for everyone. We believe that individual actions, when combined, can create massive positive environmental impact.</p>
+                <p>Our mission is to democratize carbon footprint tracking by providing an intelligent, user-friendly platform that not only measures your environmental impact but also provides personalized recommendations to help you reduce it effectively.</p>
+            </section>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="icon">🤖</span>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Advanced algorithms analyze your daily activities and provide personalized insights using Google's Gemini AI technology.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">📊</span>
+                    <h3>Real-time Tracking</h3>
+                    <p>Track your carbon emissions across transportation, energy, food, and lifestyle categories in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">💡</span>
+                    <h3>Smart Recommendations</h3>
+                    <p>Get personalized, actionable recommendations based on your specific usage patterns and impact level.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">📈</span>
+                    <h3>Progress Monitoring</h3>
+                    <p>Monitor your progress over time with detailed reports and visualizations of your carbon reduction journey.</p>
+                </div>
+            </div>
+
+            <section class="stats-section">
+                <h2 style="text-align: center; color: #1976d2;">🌍 The Climate Challenge</h2>
+                <p style="text-align: center;">Understanding the urgency of climate action through key statistics:</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">2.3</span>
+                        <span class="stat-label">Tons CO2 per year<br>Paris Agreement Target</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Tons CO2 per year<br>Current Global Average</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1.5°C</span>
+                        <span class="stat-label">Global warming limit<br>to avoid catastrophe</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2030</span>
+                        <span class="stat-label">Target year for<br>45% emission reduction</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="icon">🔬</span>How It Works</h2>
+                <p>CarbonTrackAgent uses a sophisticated multi-agent system powered by LangGraph and Google's Gemini AI to provide accurate carbon footprint calculations and personalized recommendations:</p>
+                <div style="margin: 30px 0;">
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div style="background: #4CAF50; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: bold;">1</div>
+                        <div>
+                            <strong>Data Collection:</strong> You input your daily activities across transportation, energy, food, and lifestyle categories.
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div style="background: #4CAF50; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: bold;">2</div>
+                        <div>
+                            <strong>AI Analysis:</strong> Our AI agents validate, calculate, and classify your carbon footprint using scientific emission factors.
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div style="background: #4CAF50; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: bold;">3</div>
+                        <div>
+                            <strong>Personalized Recommendations:</strong> Based on your impact level, specialized agents provide tailored advice for reduction.
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <div style="background: #4CAF50; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 20px; font-weight: bold;">4</div>
+                        <div>
+                            <strong>Progress Tracking:</strong> All sessions are logged for progress monitoring and long-term analysis.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <h2 style="text-align: center; color: #2E7D32;">🚀 Technology Stack</h2>
+                <p style="text-align: center;">Built with cutting-edge AI and web technologies for optimal performance:</p>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="avatar">🤖</div>
+                        <h4>Google Gemini AI</h4>
+                        <p>Advanced language model for intelligent analysis and personalized recommendations</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar">🕸️</div>
+                        <h4>LangGraph</h4>
+                        <p>Multi-agent framework for sophisticated workflow orchestration</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar">🐍</div>
+                        <h4>Flask & Python</h4>
+                        <p>Robust backend infrastructure for reliable data processing</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar">🎨</div>
+                        <h4>Modern Web UI</h4>
+                        <p>Responsive, intuitive interface for seamless user experience</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="icon">🌟</span>Why Choose CarbonTrackAgent?</h2>
+                <p><strong>Scientific Accuracy:</strong> We use internationally recognized emission factors and methodologies to ensure accurate calculations.</p>
+                <p><strong>Personalization:</strong> Our AI agents adapt to your specific usage patterns and provide customized recommendations.</p>
+                <p><strong>Actionable Insights:</strong> Beyond just tracking, we provide specific, practical steps you can take to reduce your footprint.</p>
+                <p><strong>Privacy-First:</strong> Your data is processed locally and securely, with complete transparency about how it's used.</p>
+                <p><strong>Continuous Learning:</strong> Our system learns from global usage patterns to improve recommendations over time.</p>
+            </section>
+
+            <div class="cta-section">
+                <h3>Ready to Start Your Climate Journey?</h3>
+                <p>Join thousands of users who are already making a difference with CarbonTrackAgent</p>
+                <a href="/track" class="cta-button">Start Tracking Now</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🌱 CarbonTrackAgent - Making sustainability simple and actionable</p>
+            <div style="margin-top: 15px;">
+                <a href="/">Home</a>
+                <a href="/track">Start Tracking</a>
+                <a href="/tips">Climate Tips</a>
+                <a href="/reports">View Reports</a>
+            </div>
+            <p style="margin-top: 20px; opacity: 0.8; font-size: 0.9em;">
+                Built with ❤️ for our planet • Powered by AI for climate action
+            </p>
+        </div>
+    </div>
+</body>
+</html>

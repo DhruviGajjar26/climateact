@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Reports - CarbonTrackAgent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-links {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .reports-summary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .reports-summary h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .no-reports {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-reports .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .no-reports h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .no-reports p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .report-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .impact-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .impact-low {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .impact-moderate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .impact-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .emissions-display {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .emissions-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .emissions-label {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .breakdown-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .breakdown-item .category {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .breakdown-item .value {
+            font-size: 1.2em;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .recommendations {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .recommendations h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .recommendations p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .btn-outline:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .report-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .emissions-number {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Carbon Footprint Reports</h1>
+            <p>Track your environmental impact over time</p>
+            <div class="nav-links">
+                <a href="/">🏠 Home</a>
+                <a href="/track">📈 Track</a>
+                <a href="/reports">📊 Reports</a>
+                <a href="/tips">💡 Tips</a>
+                <a href="/about">ℹ️ About</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="reports-summary">
+                <h2>Your Carbon Journey</h2>
+                <p>Total Reports: {{ reports|length }}</p>
+            </div>
+
+            {% if reports %}
+                {% for report in reports %}
+                <div class="report-card">
+                    <div class="report-header">
+                        <div class="report-date">
+                            📅 {{ report.timestamp[:19] }}
+                        </div>
+                        <div class="impact-badge impact-{{ report.impact_level.lower().replace(' ', '-') }}">
+                            {{ report.impact_level }}
+                        </div>
+                    </div>
+
+                    <div class="emissions-display">
+                        <div class="emissions-number">{{ report.total_emissions }}</div>
+                        <div class="emissions-label">kg CO₂ emissions</div>
+                    </div>
+
+                    <div class="breakdown-grid">
+                        <div class="breakdown-item">
+                            <div class="category">🚗 Transportation</div>
+                            <div class="value">{{ "%.2f"|format(report.emissions_breakdown.transportation.total) }} kg</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="category">⚡ Energy</div>
+                            <div class="value">{{ "%.2f"|format(report.emissions_breakdown.energy.total) }} kg</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="category">🍽️ Food</div>
+                            <div class="value">{{ "%.2f"|format(report.emissions_breakdown.food.total) }} kg</div>
+                        </div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h4>💡 AI Recommendations</h4>
+                        <p>{{ report.recommendations }}</p>
+                    </div>
+
+                    <div class="report-actions">
+                        <button class="btn btn-sm btn-outline" onclick="expandReport('{{ report.id }}')">
+                            📋 View Details
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="shareReport('{{ report.id }}')">
+                            📤 Share
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-reports">
+                    <div class="icon">📊</div>
+                    <h3>No Reports Yet</h3>
+                    <p>Start tracking your carbon footprint to see your reports here!</p>
+                    <a href="/track" class="btn">🚀 Start Tracking</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function expandReport(reportId) {
+            alert(`Expanding report ${reportId} - Feature coming soon!`);
+        }
+
+        function shareReport(reportId) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Carbon Footprint Report',
+                    text: 'Check out my carbon footprint tracking!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const shareText = `Check out my carbon footprint report! 🌱 ${window.location.href}`;
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Report link copied to clipboard!');
+                }).catch(() => {
+                    alert('Unable to copy link. Please share manually.');
+                });
+            }
+        }
+
+        // Add smooth scrolling and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.report-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

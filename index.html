@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Carbon Footprint - CarbonTrackAgent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .form-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section h3::before {
+            content: attr(data-icon);
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        input[type="number"], input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus, input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .info-box {
+            background: #e8f5e8;
+            border: 1px solid #4CAF50;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #2e7d32;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <h1>🌱 Track Your Carbon Footprint</h1>
+        
+        <div class="info-box">
+            <strong>💡 Tip:</strong> Enter your daily activities to calculate your carbon footprint. 
+            Leave fields as 0 if you didn't do that activity today.
+        </div>
+        
+        <form action="/track" method="POST">
+            <div class="form-section">
+                <h3 data-icon="🚗">Transportation</h3>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="car_km">Car Distance (km)</label>
+                        <input type="number" id="car_km" name="car_km" min="0" step="0.1" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="public_transport_km">Public Transport (km)</label>
+                        <input type="number" id="public_transport_km" name="public_transport_km" min="0" step="0.1" value="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="flight_km">Flight Distance (km)</label>
+                    <input type="number" id="flight_km" name="flight_km" min="0" step="0.1" value="0">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3 data-icon="⚡">Energy Usage</h3>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="ac_hours">Air Conditioning (hours)</label>
+                        <input type="number" id="ac_hours" name="ac_hours" min="0" step="0.1" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="heater_hours">Heater Usage (hours)</label>
+                        <input type="number" id="heater_hours" name="heater_hours" min="0" step="0.1" value="0">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="electricity_kwh">Electricity (kWh)</label>
+                        <input type="number" id="electricity_kwh" name="electricity_kwh" min="0" step="0.1" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="water_heating_hours">Water Heating (hours)</label>
+                        <input type="number" id="water_heating_hours" name="water_heating_hours" min="0" step="0.1" value="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3 data-icon="🍽️">Food & Diet</h3>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="meat_meals">Meals with Meat</label>
+                        <input type="number" id="meat_meals" name="meat_meals" min="0" max="10" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="vegetarian_meals">Vegetarian Meals</label>
+                        <input type="number" id="vegetarian_meals" name="vegetarian_meals" min="0" max="10" value="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3 data-icon="📝">Additional Information</h3>
+                <div class="form-group">
+                    <label for="location">Location (City/Country)</label>
+                    <input type="text" id="location" name="location" placeholder="e.g., New York, USA">
+                </div>
+                <div class="input-group">
+                    <div class="form-group">
+                        <label for="season">Current Season</label>
+                        <select id="season" name="season">
+                            <option value="">Select season</option>
+                            <option value="spring">Spring</option>
+                            <option value="summer">Summer</option>
+                            <option value="fall">Fall</option>
+                            <option value="winter">Winter</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="additional_activities">Other Activities</label>
+                        <input type="text" id="additional_activities" name="additional_activities" placeholder="Any other carbon-producing activities">
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Calculate My Carbon Footprint 🌍</button>
+        </form>
+    </div>
+    
+    <script>
+        // Add some basic validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const meatMeals = parseInt(document.getElementById('meat_meals').value) || 0;
+            const vegMeals = parseInt(document.getElementById('vegetarian_meals').value) || 0;
+            
+            if (meatMeals + vegMeals > 10) {
+                alert('Total meals cannot exceed 10 per day. Please adjust your values.');
+                e.preventDefault();
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.textContent = 'Calculating... 🔄';
+            submitBtn.disabled = true;
+        });
+        
+        // Add helpful tooltips
+        const tooltips = {
+            'car_km': 'Include all personal car/motorcycle travel',
+            'public_transport_km': 'Bus, train, subway, etc.',
+            'flight_km': 'Total distance of flights taken today',
+            'ac_hours': 'Total hours air conditioning was running',
+            'heater_hours': 'Total hours heating was on',
+            'electricity_kwh': 'Check your meter or estimate based on usage',
+            'water_heating_hours': 'Time spent heating water for showers, etc.'
+        };
+        
+        Object.keys(tooltips).forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.title = tooltips[id];
+            }
+        });
+    </script>
+</body>
+</html>

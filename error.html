@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - CarbonTrackAgent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .error-container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .error-header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .error-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .error-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-content {
+            padding: 40px 30px;
+        }
+
+        .error-code {
+            font-size: 6em;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .error-message {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #742a2a;
+        }
+
+        .error-message h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #c53030;
+        }
+
+        .error-message p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .error-details {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #4a5568;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .btn-outline:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .help-section {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .help-section h4 {
+            color: #0369a1;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .help-section ul {
+            color: #075985;
+            padding-left: 20px;
+        }
+
+        .help-section li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .nav-links {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .nav-links a {
+            color: #4a5568;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .error-header h1 {
+                font-size: 2em;
+            }
+
+            .error-code {
+                font-size: 4em;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .nav-links a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-header">
+            <div class="error-icon">🚨</div>
+            <h1>Oops! Something went wrong</h1>
+            <p>We encountered an unexpected error while processing your request</p>
+        </div>
+
+        <div class="error-content">
+            <div class="error-code">ERROR</div>
+
+            <div class="error-message">
+                <h3>🔍 What happened?</h3>
+                <p>An error occurred while processing your carbon footprint data. This might be due to:</p>
+                <div class="error-details">
+                    <strong>Error Details:</strong><br>
+                    {{ error if error else "Unknown error occurred" }}
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h4>🛠️ How to fix this:</h4>
+                <ul>
+                    <li>Check if all form fields are filled correctly</li>
+                    <li>Ensure numeric values are entered where required</li>
+                    <li>Verify your internet connection is stable</li>
+                    <li>Try refreshing the page and submitting again</li>
+                    <li>If the error persists, please contact support</li>
+                </ul>
+            </div>
+
+            <div class="error-actions">
+                <a href="javascript:history.back()" class="btn btn-primary">
+                    ← Go Back
+                </a>
+                <a href="/track" class="btn btn-secondary">
+                    🔄 Try Again
+                </a>
+                <a href="/" class="btn btn-outline">
+                    🏠 Home
+                </a>
+            </div>
+
+            <div class="nav-links">
+                <a href="/">🏠 Home</a>
+                <a href="/track">📈 Track</a>
+                <a href="/reports">📊 Reports</a>
+                <a href="/tips">💡 Tips</a>
+                <a href="/about">ℹ️ About</a>
+            </div>
+
+            <div class="footer-note">
+                <p>If you continue to experience issues, please check:</p>
+                <ul style="text-align: left; margin-top: 10px;">
+                    <li>Your API key is properly configured</li>
+                    <li>All required dependencies are installed</li>
+                    <li>The server is running correctly</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh functionality
+        let refreshTimer;
+        
+        function startAutoRefresh() {
+            refreshTimer = setTimeout(() => {
+                if (confirm('Would you like to try refreshing the page?')) {
+                    window.location.reload();
+                }
+            }, 30000); // 30 seconds
+        }
+
+        // Error reporting
+        function reportError() {
+            const errorData = {
+                error: "{{ error|replace('\"', '\\\"') if error else 'Unknown error' }}",
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                url: window.location.href
+            };
+            
+            console.error('CarbonTrackAgent Error:', errorData);
+            
+            // In a real application, you would send this to your logging service
+            alert('Error has been logged for debugging. Please try again or contact support.');
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            startAutoRefresh();
+            
+            // Add click tracking for debugging
+            document.querySelectorAll('a, button').forEach(element => {
+                element.addEventListener('click', function(e) {
+                    console.log('User clicked:', e.target.textContent.trim());
+                });
+            });
+        });
+
+        // Clear timer when user navigates away
+        window.addEventListener('beforeunload', function() {
+            if (refreshTimer) {
+                clearTimeout(refreshTimer);
+            }
+        });
+    </script>
+</body>
+</html>

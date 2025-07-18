@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Carbon Footprint Results - CarbonTrackAgent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .total-emissions {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .total-emissions.low {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+        
+        .total-emissions.moderate {
+            background: linear-gradient(45deg, #ff9800, #f57c00);
+        }
+        
+        .total-emissions.high {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+        }
+        
+        .emissions-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .emissions-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .impact-level {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .breakdown-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .breakdown-item h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .breakdown-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        
+        .breakdown-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .recommendations {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .recommendations h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .recommendations p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .context-info {
+            background: #e8f5e8;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .context-info h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .context-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .context-item strong {
+            color: #2e7d32;
+            font-size: 1.1rem;
+        }
+        
+        .final-summary {
+            background: linear-gradient(45deg, #673ab7, #3f51b5);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .final-summary h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .final-summary p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .action-btn.primary {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .action-btn.secondary {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .action-btn.tertiary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .emissions-number {
+                font-size: 2.5rem;
+            }
+            
+            .breakdown {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Your Carbon Footprint Results</h1>
+            <p>{{ result.timestamp if result.timestamp else 'Today' }}</p>
+        </div>
+        
+        <div class="total-emissions {% if 'Low' in result.impact_level %}low{% elif 'Moderate' in result.impact_level %}moderate{% else %}high{% endif %}">
+            <div class="emissions-number">{{ result.total_emissions }}</div>
+            <div class="emissions-label">kg CO2 today</div>
+            <div class="impact-level">{{ result.impact_level }}</div>
+        </div>
+        
+        <div class="breakdown">
+            <div class="breakdown-item">
+                <h3>🚗 Transportation</h3>
+                <div class="breakdown-value">{{ "%.2f"|format(result.emissions_breakdown.transportation.total) }}</div>
+                <div class="breakdown-details">
+                    Car: {{ "%.2f"|format(result.emissions_breakdown.transportation.car) }} kg CO2<br>
+                    Public: {{ "%.2f"|format(result.emissions_breakdown.transportation.public_transport) }} kg CO2<br>
+                    Flights: {{ "%.2f"|format(result.emissions_breakdown.transportation.flights) }} kg CO2
+                </div>
+            </div>
+            
+            <div class="breakdown-item">
+                <h3>⚡ Energy</h3>
+                <div class="breakdown-value">{{ "%.2f"|format(result.emissions_breakdown.energy.total) }}</div>
+                <div class="breakdown-details">
+                    AC: {{ "%.2f"|format(result.emissions_breakdown.energy.ac) }} kg CO2<br>
+                    Heater: {{ "%.2f"|format(result.emissions_breakdown.energy.heater) }} kg CO2<br>
+                    Electricity: {{ "%.2f"|format(result.emissions_breakdown.energy.electricity) }} kg CO2
+                </div>
+            </div>
+            
+            <div class="breakdown-item">
+                <h3>🍽️ Food</h3>
+                <div class="breakdown-value">{{ "%.2f"|format(result.emissions_breakdown.food.total) }}</div>
+                <div class="breakdown-details">
+                    Meat meals: {{ "%.2f"|format(result.emissions_breakdown.food.meat_meals) }} kg CO2<br>
+                    Vegetarian: {{ "%.2f"|format(result.emissions_breakdown.food.vegetarian_meals) }} kg CO2
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendations">
+            <h3>💡 Personalized Recommendations</h3>
+            <p>{{ result.recommendations|replace('\n', '<br>')|safe }}</p>
+        </div>
+        
+        <div class="context-info">
+            <h3>🌐 Global Context</h3>
+            <div class="context-grid">
+                <div class="context-item">
+                    <strong>5 kg CO2</strong><br>
+                    Sustainable Daily Target
+                </div>
+                <div class="context-item">
+                    <strong>12 kg CO2</strong><br>
+                    Global Average
+                </div>
+                <div class="context-item">
+                    <strong>2.3 tons/year</strong><br>
+                    Paris Agreement Goal
+                </div>
+            </div>
+        </div>
+        
+        <div class="final-summary">
+            <h3>🎯 Key Takeaway</h3>
+            <p>{{ result.final_summary }}</p>
+        </div>
+        
+        <div class="actions">
+            <a href="/track" class="action-btn primary">Track Another Day</a>
+            <a href="/tips" class="action-btn secondary">Get More Tips</a>
+            <a href="/reports" class="action-btn tertiary">View History</a>
+            <a href="/" class="action-btn tertiary">Back to Home</a>
+        </div>
+    </div>
+    
+    <script>
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate the emissions number
+            const emissionsNumber = document.querySelector('.emissions-number');
+            if (emissionsNumber) {
+                const finalValue = parseFloat(emissionsNumber.textContent);
+                let currentValue = 0;
+                const increment = finalValue / 50;
+                
+                const counter = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= finalValue) {
+                        currentValue = finalValue;
+                        clearInterval(counter);
+                    }
+                    emissionsNumber.textContent = currentValue.toFixed(1);
+                }, 30);
+            }
+            
+            // Add sharing functionality
+            const shareBtn = document.createElement('button');
+            shareBtn.textContent = 'Share Results 📱';
+            shareBtn.className = 'action-btn secondary';
+            shareBtn.onclick = function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My Carbon Footprint Results',
+                        text: `I calculated my carbon footprint: ${document.querySelector('.emissions-number').textContent} kg CO2 today!`,
+                        url: window.location.href
+                    });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    const text = `I calculated my carbon footprint: ${document.querySelector('.emissions-number').textContent} kg CO2 today! Check out CarbonTrackAgent.`;
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('Results copied to clipboard!');
+                    });
+                }
+            };
+            
+            document.querySelector('.actions').appendChild(shareBtn);
+        });
+    </script>
+</body>
+</html>
