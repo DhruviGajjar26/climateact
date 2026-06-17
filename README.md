@@ -191,5 +191,5 @@ This launches an interactive prompt to enter your daily activities and prints th
 
 This project is open source. Feel free to use, modify, and distribute it.
 
-## 📬 Contact
+
 Made by [Dhruvi Gajjar](https://github.com/DhruviGajjar26)
